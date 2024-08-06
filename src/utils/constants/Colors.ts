@@ -5,8 +5,9 @@ export const DEFAULT_COLORS = {
   yellow: "#F4E041",
   orange: "#FFC700",
   gray: "#DEDEDE",
+  dark_gray: "#636363",
   primary_blue: "#03bdd3",
   interior_blue: "#009BBD",
   light_blue: "#00BDD3",
-  red: "#CB3D40"
-}
+  red: "#CB3D40",
+};

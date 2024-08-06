@@ -1,17 +1,14 @@
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { TabBarIcon } from "@/shared/components/navigation/TabBarIcon";
+// import { SVGIcon } from "@/shared/ui-kit/svg-icon";
+import { SVGIcon } from "@/shared/ui-kit/svg-icon";
 import { DEFAULT_COLORS } from "@/utils/constants/Colors";
-import { useColorScheme } from "react-native";
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: DEFAULT_COLORS.red,
+        tabBarActiveTintColor: DEFAULT_COLORS.interior_blue,
         headerShown: false,
       }}
     >
@@ -19,18 +16,14 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? "home" : "home-outline"} color={color} />
-          ),
+          tabBarIcon: ({ color, focused }) => <SVGIcon name="bell" color={"black"} size={30} />,
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Explore",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? "code-slash" : "code-slash-outline"} color={color} />
-          ),
+          title: "Sign up",
+          tabBarIcon: ({ color, focused }) => <SVGIcon name="sign_in" color={"black"} size={40} />,
         }}
       />
     </Tabs>

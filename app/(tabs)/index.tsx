@@ -1,7 +1,12 @@
+import Icon from "#/images/icons/sign-in.svg";
 import { StyleSheet, Text } from "react-native";
 
 export default function HomeScreen() {
-  return <Text>HomeScreen</Text>;
+  return (
+    <Text>
+      HomeScreen <Icon />
+    </Text>
+  );
 }
 
 const styles = StyleSheet.create({
