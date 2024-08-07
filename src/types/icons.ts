@@ -1,1 +1,1 @@
-export type SVGIconNames = "users_group" | "sign_in" | "bell";
+export type SVGIconNames = "users_group" | "sign_in" | "users_main_group";
