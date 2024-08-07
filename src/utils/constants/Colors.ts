@@ -10,4 +10,6 @@ export const DEFAULT_COLORS = {
   interior_blue: "#009BBD",
   light_blue: "#00BDD3",
   red: "#CB3D40",
+  white: "#FFFFFF",
+  secondary_white: "#F8F8F8",
 };
