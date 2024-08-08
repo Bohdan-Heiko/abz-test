@@ -1,16 +1,25 @@
 import { DEFAULT_COLORS } from "@/utils/constants/Colors";
 import React, { useRef, useState } from "react";
-import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
+import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 
 interface Props {
   label: string;
+  subPlaceHolder?: string;
+  inputProps?: TextInputProps;
+  additionalText?: string;
   error: {
     isError: boolean;
     message: string;
   };
 }
 
-const AnimatedInputField = ({ label, error }: Props) => {
+const AnimatedInputField = ({
+  label,
+  error,
+  subPlaceHolder,
+  inputProps,
+  additionalText,
+}: Props) => {
   const [text, setText] = useState("");
   const floatingLabelAnimation = useRef(new Animated.Value(text ? 1 : 0)).current;
   const borderColorAnimation = useRef(new Animated.Value(0)).current;
@@ -76,37 +85,45 @@ const AnimatedInputField = ({ label, error }: Props) => {
         {label}
       </Animated.Text>
       <Animated.View
-        style={[styles.input, { borderColor: error.isError ? DEFAULT_COLORS.red : borderColor }]}
+        style={[
+          styles.animatedInput,
+          { borderColor: error.isError ? DEFAULT_COLORS.red : borderColor },
+        ]}
       >
         <TextInput
+          {...inputProps}
           value={text}
           onChangeText={(val) => setText(val)}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          style={{ flex: 1 }}
         />
+        {additionalText && <Text style={styles.additionalText}>{additionalText}</Text>}
       </Animated.View>
       {error.isError && <Text style={styles.errorMessage}>{error.message}</Text>}
+      {subPlaceHolder && !error.isError && (
+        <Text style={styles.subPlaceholder}>{subPlaceHolder}</Text>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // marginHorizontal: 10,
     position: "relative",
   },
   inputContainer: {
     borderBottomWidth: 1,
     paddingBottom: 4,
   },
-  input: {
+  animatedInput: {
     borderWidth: 1,
     borderRadius: 4,
-    // borderColor: DEFAULT_COLORS.gray,
     paddingHorizontal: 16,
     paddingVertical: 16,
     fontSize: 16,
-    // fontWeight: "bold",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   label: {
     paddingLeft: 16,
@@ -118,6 +135,16 @@ const styles = StyleSheet.create({
     bottom: -20,
     left: 20,
     color: DEFAULT_COLORS.red,
+  },
+  subPlaceholder: {
+    color: DEFAULT_COLORS.surface,
+    lineHeight: 16,
+    paddingTop: 4,
+  },
+  additionalText: {
+    fontSize: 16,
+    lineHeight: 21,
+    color: DEFAULT_COLORS.secondary,
   },
 });
 
