@@ -32,7 +32,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="sign-up"
         options={{
           title: "Sign up",
           tabBarIcon: ({ color, focused }) => <SVGIcon name="sign_in" color={"black"} size={40} />,

@@ -12,4 +12,6 @@ export const DEFAULT_COLORS = {
   red: "#CB3D40",
   white: "#FFFFFF",
   secondary_white: "#F8F8F8",
+  surface: "#49454F",
+  dark: "#000000",
 };
