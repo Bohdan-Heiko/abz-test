@@ -1,20 +1,24 @@
-import UserImg from "#/images/users/user_1.png";
+import { UsersResponse } from "@/types/users";
 import { DEFAULT_COLORS } from "@/utils/constants/Colors";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-export const User = () => {
+interface Props {
+  user: UsersResponse["users"][0];
+}
+
+export const User = ({ user }: Props) => {
   return (
     <View style={styles.container}>
-      <Image source={UserImg} style={styles.imageContainer} />
+      <Image source={{ uri: user?.photo }} style={styles.imageContainer} />
       <View style={styles.textContainer}>
         <View style={styles.innerTextContainer}>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>Malcolm Bailey</Text>
-            <Text style={styles.titleText}>Frontend developer</Text>
+            <Text style={styles.nameText}>{user?.name}</Text>
+            <Text style={styles.titleText}>{user?.position}</Text>
           </View>
           <View style={styles.emailContainer}>
-            <Text style={styles.emailText}>jany_murazik51@hotmail.com</Text>
-            <Text style={styles.phoneText}>+38 (098) 278 76 24</Text>
+            <Text style={styles.emailText}>{user?.email}</Text>
+            <Text style={styles.phoneText}>{user?.phone}</Text>
           </View>
         </View>
         <View style={styles.divider} />
@@ -27,10 +31,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     gap: 16,
+    paddingTop: 24,
+    // backgroundColor: "red",
   },
   imageContainer: {
     width: 50,
-    height: 50,
+    aspectRatio: 1,
+    borderRadius: 25,
   },
   textContainer: {
     flexDirection: "column",
