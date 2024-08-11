@@ -1,12 +1,12 @@
-import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
+import React from "react"
 
-// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
-
-import RejectImg from "#/images/sign-up/reject.png"
-import SuccessImg from "#/images/sign-up/success.png"
 import { Button } from "@/shared/ui-kit/button"
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
+
+// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
+import RejectImg from "#/images/sign-up/reject.png"
+import SuccessImg from "#/images/sign-up/success.png"
 
 interface Props {
   status: "success" | "reject"

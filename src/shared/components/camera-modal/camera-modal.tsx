@@ -1,5 +1,6 @@
-import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native"
+
+import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 
 interface Props {
   visible: boolean

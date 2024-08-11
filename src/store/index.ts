@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
 import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
-import { authSlice } from "./slices/auth"
 import { appApi } from "./services"
+import { authSlice } from "./slices/auth"
+import { userSlice } from "./slices/user"
 
 const reducers = combineReducers({
   [appApi.reducerPath]: appApi.reducer,
-  [authSlice.name]: authSlice.reducer
+  [authSlice.name]: authSlice.reducer,
+  [userSlice.name]: userSlice.reducer
 })
 
 const store = configureStore({

@@ -2,10 +2,12 @@ import { useMemo } from "react"
 
 import { useAppDispatch } from "@/store"
 import { setNewToken } from "@/store/slices/auth"
+import { setCreatedUserId } from "@/store/slices/user"
 import { bindActionCreators } from "@reduxjs/toolkit"
 
 const rootActions = {
-  setNewToken
+  setNewToken,
+  setCreatedUserId
 }
 
 export const useActions = () => {

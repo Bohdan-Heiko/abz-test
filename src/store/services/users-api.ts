@@ -1,6 +1,7 @@
 import { positionsSchemaDto } from "@/dto/users-positions.dto"
-import { usersSchemaDto } from "@/dto/users.dto"
+import { oneUserUserSchemaDto, usersSchemaDto } from "@/dto/users.dto"
 import {
+  OneUserResponse,
   SuccessSignUpUser,
   UsersPositionsResponse,
   UsersResponse,
@@ -45,6 +46,16 @@ export const visitApi = appApi.injectEndpoints({
         formData: true
       }),
       invalidatesTags: ["Users"] // INVALIDATE ALL USERS AFTER CREATE
+    }),
+
+    getUserById: builder.query<OneUserResponse, string | undefined>({
+      query: (id) => ({
+        url: `/users/${id}`
+      }),
+      transformResponse: (baseQueryReturnValue: OneUserResponse) => {
+        oneUserUserSchemaDto.parse(baseQueryReturnValue)
+        return baseQueryReturnValue
+      }
     })
   })
 })
@@ -52,5 +63,6 @@ export const visitApi = appApi.injectEndpoints({
 export const {
   useLazyGetAllUsersQuery,
   useGetUsersPositionsQuery,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useGetUserByIdQuery
 } = visitApi

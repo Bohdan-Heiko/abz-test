@@ -1,6 +1,6 @@
+import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 import React, { useRef, useState } from "react"
 import { Controller, FieldValues, UseControllerProps } from "react-hook-form"
-import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 

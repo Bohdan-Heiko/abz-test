@@ -1,9 +1,10 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Alert } from "react-native"
 
-import { useLazyGetAllUsersQuery } from "@/store/services/users-api"
+import { useActions } from "@/shared/hooks/use-actions"
+import { useAppSelector } from "@/store"
+import { useGetUserByIdQuery, useLazyGetAllUsersQuery } from "@/store/services/users-api"
 import { UsersResponse } from "@/types/users"
-import { usePathname } from "expo-router"
 
 interface ReturnData {
   users: UsersResponse["users"]
@@ -13,10 +14,15 @@ interface ReturnData {
 }
 export const useUserData = (): ReturnData => {
   const pageRef = useRef<number>(1)
-  const pathname = usePathname()
+  const { setCreatedUserId } = useActions()
+
+  const { id: createdUserid } = useAppSelector((state) => state.user)
 
   const [users, setUsers] = useState<UsersResponse["users"]>([])
   const [getAllUsers, { isFetching: isUsersLoading }] = useLazyGetAllUsersQuery()
+  const { data: onUserData } = useGetUserByIdQuery(createdUserid, {
+    skip: !createdUserid
+  })
 
   const loadMoreData = async (page: number) => {
     if (isUsersLoading) return
@@ -29,9 +35,12 @@ export const useUserData = (): ReturnData => {
       .catch(() => Alert.alert("Something went wrong"))
   }
 
-  // useEffect(() => {
-  //   setUsers([])
-  // }, [pathname])
+  useEffect(() => {
+    if (onUserData?.success) {
+      setUsers((prev) => [onUserData.user, ...prev])
+      setCreatedUserId("")
+    }
+  }, [onUserData?.success])
 
   return {
     users,
