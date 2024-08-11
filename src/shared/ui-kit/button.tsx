@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text } from "react-native"
 import React from "react"
+import { Pressable, StyleSheet, Text } from "react-native"
 
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 
@@ -34,8 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: DEFAULT_COLORS.primary,
     justifyContent: "center",
-    alignItems: "center",
-    maxWidth: 140
+    alignItems: "center"
   },
   disabled: {
     backgroundColor: DEFAULT_COLORS.gray
