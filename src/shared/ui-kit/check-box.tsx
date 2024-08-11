@@ -8,9 +8,16 @@ interface CheckBoxProps {
   variant?: "ios" | "android";
   disabled?: boolean;
   onPress: () => void;
+  isError: boolean;
 }
 
-export const CheckBox = ({ isChecked, onPress, disabled, variant = "ios" }: CheckBoxProps) => {
+export const CheckBox = ({
+  isChecked,
+  onPress,
+  disabled,
+  variant = "ios",
+  isError,
+}: CheckBoxProps) => {
   return (
     <Pressable
       style={[
@@ -19,6 +26,7 @@ export const CheckBox = ({ isChecked, onPress, disabled, variant = "ios" }: Chec
         {
           width: variant === "ios" ? 14 : 20,
           borderRadius: variant === "ios" ? 7 : 10,
+          borderColor: isError ? DEFAULT_COLORS.red : DEFAULT_COLORS.gray,
         },
       ]}
       disabled={disabled}

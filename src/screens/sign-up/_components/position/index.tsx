@@ -1,16 +1,28 @@
 import { CheckBox } from "@/shared/ui-kit/check-box";
+import { UsersPositionsResponse } from "@/types/users";
 import React from "react";
+import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 import { Platform, StyleSheet, Text, View } from "react-native";
 
-interface Props {
-  position: string;
+interface Props<T extends FieldValues> extends UseControllerProps<T> {
+  userPosition: UsersPositionsResponse["positions"][0];
 }
-export const Position = ({ position }: Props) => {
+export const Position = <T extends FieldValues>({ userPosition, control, name }: Props<T>) => {
   return (
-    <View style={styles.container}>
-      <CheckBox onPress={() => {}} isChecked={false} />
-      <Text style={styles.text}>{position}</Text>
-    </View>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <View style={styles.container}>
+          <CheckBox
+            isError={!!error}
+            isChecked={value === userPosition.id}
+            onPress={() => onChange(userPosition.id)}
+          />
+          <Text style={styles.text}>{userPosition.name}</Text>
+        </View>
+      )}
+    />
   );
 };
 

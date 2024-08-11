@@ -5,8 +5,9 @@ import { ScreenContainer } from "@/shared/ui-kit/screen-container";
 import { ScrollView, Text, View } from "react-native";
 import { Position } from "./_components/position";
 
+import { useGetUsersPositionsQuery } from "@/store/services/users-api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -14,13 +15,13 @@ const signUpSchema = z.object({
     .string({ message: "Required field" })
     .min(2, "Minimum 2 character")
     .max(60, "Maximum 60 characters"),
-  email: z.string().email(),
+  email: z.string().email({ message: "Invalid email format" }),
   phone: z
     .string({ message: "Required field" })
     .startsWith("+380", "Phone number must start with +380")
     .min(13)
     .max(13),
-  position_id: z.number(),
+  position_id: z.number().min(1).nonnegative(),
   photo: z.string(),
 });
 
@@ -28,20 +29,31 @@ const DEFAULT_DATA = {
   name: "",
   email: "",
   phone: "",
-  position_id: "",
+  position_id: 0,
   photo: "",
 };
 
+type SignInSchemaType = z.infer<typeof signUpSchema>;
+
 export const SignUp = () => {
+  const { data: positionsData } = useGetUsersPositionsQuery();
+  console.log(positionsData);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<SignInSchemaType>({
     mode: "onChange",
     defaultValues: DEFAULT_DATA,
     resolver: zodResolver(signUpSchema),
   });
+
+  console.log(errors);
+
+  const onSendForm: SubmitHandler<SignInSchemaType> = (data: any) => {
+    console.log(data);
+  };
 
   return (
     <ScreenContainer>
@@ -65,10 +77,17 @@ export const SignUp = () => {
           <View style={{ gap: 12 }}>
             <Text style={{ fontSize: 24, lineHeight: 24 }}>Select your position</Text>
             <View>
-              <Position position="Frontend developer" />
-              <Position position="Backend developer" />
+              {positionsData?.positions?.map((position) => (
+                <Position
+                  key={position.id}
+                  control={control}
+                  name="position_id"
+                  userPosition={position}
+                />
+              ))}
+              {/* <Position position="Backend developer" />
               <Position position="Designer" />
-              <Position position="QA" />
+              <Position position="QA" /> */}
             </View>
           </View>
 
@@ -83,7 +102,7 @@ export const SignUp = () => {
             }}
           />
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Button label="Sign up" disabled />
+            <Button onPress={handleSubmit(onSendForm)} label="Sign up" disabled={false} />
           </View>
         </View>
       </ScrollView>

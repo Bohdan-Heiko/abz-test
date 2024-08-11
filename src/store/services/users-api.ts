@@ -1,5 +1,6 @@
+import { positionsSchemaDto } from "@/dto/users-positions.dto";
 import { usersSchemaDto } from "@/dto/users.dto";
-import { UsersResponse, UsersResponseParams } from "@/types/users";
+import { UsersPositionsResponse, UsersResponse, UsersResponseParams } from "@/types/users";
 import { appApi } from "./app-api";
 
 export const visitApi = appApi.injectEndpoints({
@@ -14,7 +15,17 @@ export const visitApi = appApi.injectEndpoints({
         return baseQueryReturnValue;
       },
     }),
+
+    getUsersPositions: builder.query<UsersPositionsResponse, void>({
+      query: () => ({
+        url: "/positions",
+      }),
+      transformResponse: (baseQueryReturnValue: UsersPositionsResponse) => {
+        positionsSchemaDto.parse(baseQueryReturnValue);
+        return baseQueryReturnValue;
+      },
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery, useLazyGetAllUsersQuery } = visitApi;
+export const { useGetAllUsersQuery, useLazyGetAllUsersQuery, useGetUsersPositionsQuery } = visitApi;
