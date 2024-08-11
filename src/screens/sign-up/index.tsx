@@ -8,6 +8,7 @@ import { ScreenContainer } from "@/shared/ui-kit/screen-container"
 
 import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
 import { router } from "expo-router"
+import { StatusBar } from "expo-status-bar"
 import { Position } from "./_components/position"
 import { UserStatus } from "./_components/user-status"
 import { useCreateuser } from "./hooks/useUserCreate"
@@ -38,6 +39,7 @@ export const SignUp = () => {
 
   return (
     <ScreenContainer>
+      <StatusBar style="dark" />
       <WorkingRequest requestType="POST" />
       <ScrollView>
         <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 32, gap: 24 }}>

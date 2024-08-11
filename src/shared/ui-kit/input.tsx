@@ -1,6 +1,6 @@
-import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 import React, { useRef, useState } from "react"
 import { Controller, FieldValues, UseControllerProps } from "react-hook-form"
+import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 
@@ -12,12 +12,12 @@ interface Props<T extends FieldValues> extends UseControllerProps<T> {
 }
 
 const AnimatedInputField = <T extends FieldValues>({
+  name,
   label,
   control,
-  subPlaceHolder,
   inputProps,
-  additionalText,
-  name
+  subPlaceHolder,
+  additionalText
 }: Props<T>) => {
   const [text, setText] = useState("")
   const floatingLabelAnimation = useRef(new Animated.Value(text ? 1 : 0)).current

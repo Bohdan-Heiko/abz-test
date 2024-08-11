@@ -20,7 +20,8 @@ export const visitApi = appApi.injectEndpoints({
       transformResponse: (baseQueryReturnValue: UsersResponse) => {
         usersSchemaDto.parse(baseQueryReturnValue)
         return baseQueryReturnValue
-      }
+      },
+      providesTags: ["Users"]
     }),
 
     getUsersPositions: builder.query<UsersPositionsResponse, void>({
@@ -42,7 +43,8 @@ export const visitApi = appApi.injectEndpoints({
           "Ignore-Headers": "true"
         },
         formData: true
-      })
+      }),
+      invalidatesTags: ["Users"] // INVALIDATE ALL USERS AFTER CREATE
     })
   })
 })

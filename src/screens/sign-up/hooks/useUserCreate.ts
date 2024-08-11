@@ -58,18 +58,12 @@ export const useCreateuser = (): ReturnData => {
   ] = useCreateUserMutation()
   const { setNewToken } = useActions()
 
-  const {
-    control,
-    watch,
-    trigger,
-    setValue,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<SignUpUserSchemaType>({
-    mode: "onChange",
-    defaultValues: DEFAULT_DATA,
-    resolver: zodResolver(signUpSchema)
-  })
+  const { control, watch, trigger, setValue, handleSubmit, setError, getValues } =
+    useForm<SignUpUserSchemaType>({
+      mode: "onChange",
+      defaultValues: DEFAULT_DATA,
+      resolver: zodResolver(signUpSchema)
+    })
 
   const WATCH_PHOTO = watch("photo") as ImagePicker.ImagePickerAsset
 
@@ -86,6 +80,8 @@ export const useCreateuser = (): ReturnData => {
 
   // FORAM DATA AND SEND TO SERVER
   const onSendForm: SubmitHandler<SignUpUserSchemaType> = async (data) => {
+    if (!WATCH_PHOTO.assetId)
+      return setError("photo", { type: "required", message: "Photo is required" })
     const isToken = await setToken()
 
     if (isToken) {

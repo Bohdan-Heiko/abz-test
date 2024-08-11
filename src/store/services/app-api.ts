@@ -7,7 +7,7 @@ const API_URL = "https://frontend-test-assignment-api.abz.agency/api/v1"
 export const appApi = createApi({
   reducerPath: "appApi",
   keepUnusedDataFor: 0,
-  tagTypes: [],
+  tagTypes: ["Users"],
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: async (headers, { getState }) => {

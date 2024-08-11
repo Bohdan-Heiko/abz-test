@@ -12,5 +12,5 @@ export const signUpSchema = z.object({
     .min(13)
     .max(13),
   position_id: z.number().min(1).nonnegative(),
-  photo: z.object({})
+  photo: z.object({}).required()
 })
