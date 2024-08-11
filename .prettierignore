@@ -1,0 +1,13 @@
+
+node_modules
+.next
+.dist
+dist
+.devops
+devops
+package.json
+.package.json
+ package-lock.json
+.package-lock.json
+yarn.lock
+    .yarn.lock

@@ -1,16 +1,21 @@
-import { WorkingRequest } from "@/shared/components/work-request";
-import { ScreenContainer } from "@/shared/ui-kit/screen-container";
-import { UsersResponse } from "@/types/users";
-import { FlashList } from "@shopify/flash-list";
-import { useCallback } from "react";
-import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native";
-import { NoUsers } from "./_components/no-users";
-import { User } from "./_components/user";
-import { useUserData } from "./_hooks/useUserData";
+import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native"
+import { useCallback } from "react"
+
+import { WorkingRequest } from "@/shared/components/work-request"
+import { ScreenContainer } from "@/shared/ui-kit/screen-container"
+import { UsersResponse } from "@/types/users"
+import { FlashList } from "@shopify/flash-list"
+
+import { NoUsers } from "./_components/no-users"
+import { User } from "./_components/user"
+import { useUserData } from "./_hooks/useUserData"
 
 export const Users = () => {
-  const { isUsersLoading, loadMoreData, users, pageRef } = useUserData();
-  const KEY_EXTRACTOR = useCallback((item: UsersResponse["users"][0]) => item.id.toString(), []);
+  const { isUsersLoading, loadMoreData, users, pageRef } = useUserData()
+  const KEY_EXTRACTOR = useCallback(
+    (item: UsersResponse["users"][0]) => item.id.toString(),
+    []
+  )
 
   return (
     <ScreenContainer>
@@ -41,28 +46,28 @@ export const Users = () => {
         />
       </View>
     </ScreenContainer>
-  );
-};
+  )
+}
 
 const RenderFooter = ({ isUsersLoading }: { isUsersLoading: boolean }) => {
-  if (!isUsersLoading) return null;
+  if (!isUsersLoading) return null
   return (
     <View style={{ paddingVertical: 20 }}>
       <ActivityIndicator size="large" />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   usersContainer: {
     flex: 1,
     paddingHorizontal: 16,
-    gap: 24,
+    gap: 24
   },
   emptyComponentContainer: {
     flex: 1,
     height: Dimensions.get("window").height - 100,
     justifyContent: "center",
-    alignItems: "center",
-  },
-});
+    alignItems: "center"
+  }
+})

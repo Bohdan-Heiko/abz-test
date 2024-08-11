@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const usersSchemaDto = z.object({
   success: z.boolean(),
@@ -8,7 +8,7 @@ export const usersSchemaDto = z.object({
   page: z.number(),
   links: z.object({
     next_url: z.string().nullable().optional(),
-    prev_url: z.string().nullable().optional(),
+    prev_url: z.string().nullable().optional()
   }),
   users: z.array(
     z.object({
@@ -19,7 +19,7 @@ export const usersSchemaDto = z.object({
       position: z.string(),
       position_id: z.number(),
       registration_timestamp: z.number(),
-      photo: z.string(),
+      photo: z.string()
     })
-  ),
-});
+  )
+})

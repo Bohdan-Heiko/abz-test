@@ -1,14 +1,15 @@
-import { WorkingRequest } from "@/shared/components/work-request";
-import { Button } from "@/shared/ui-kit/button";
-import AnimatedInputField from "@/shared/ui-kit/input";
-import { ScreenContainer } from "@/shared/ui-kit/screen-container";
-import { ScrollView, Text, View } from "react-native";
-import { Position } from "./_components/position";
+import { ScrollView, Text, View } from "react-native"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { z } from "zod"
 
-import { useGetUsersPositionsQuery } from "@/store/services/users-api";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { WorkingRequest } from "@/shared/components/work-request"
+import { Button } from "@/shared/ui-kit/button"
+import AnimatedInputField from "@/shared/ui-kit/input"
+import { ScreenContainer } from "@/shared/ui-kit/screen-container"
+import { useGetUsersPositionsQuery } from "@/store/services/users-api"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+import { Position } from "./_components/position"
 
 const signUpSchema = z.object({
   name: z
@@ -22,38 +23,38 @@ const signUpSchema = z.object({
     .min(13)
     .max(13),
   position_id: z.number().min(1).nonnegative(),
-  photo: z.string(),
-});
+  photo: z.string()
+})
 
 const DEFAULT_DATA = {
   name: "",
   email: "",
   phone: "",
   position_id: 0,
-  photo: "",
-};
+  photo: ""
+}
 
-type SignInSchemaType = z.infer<typeof signUpSchema>;
+type SignInSchemaType = z.infer<typeof signUpSchema>
 
 export const SignUp = () => {
-  const { data: positionsData } = useGetUsersPositionsQuery();
-  console.log(positionsData);
+  const { data: positionsData } = useGetUsersPositionsQuery()
+  console.log(positionsData)
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<SignInSchemaType>({
     mode: "onChange",
     defaultValues: DEFAULT_DATA,
-    resolver: zodResolver(signUpSchema),
-  });
+    resolver: zodResolver(signUpSchema)
+  })
 
-  console.log(errors);
+  console.log(errors)
 
   const onSendForm: SubmitHandler<SignInSchemaType> = (data: any) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
     <ScreenContainer>
@@ -68,7 +69,7 @@ export const SignUp = () => {
               label="Phone"
               control={control}
               inputProps={{
-                keyboardType: "phone-pad",
+                keyboardType: "phone-pad"
               }}
               subPlaceHolder="+38 (XXX) XXX - XX - XX"
             />
@@ -98,7 +99,7 @@ export const SignUp = () => {
             additionalText="Upload"
             inputProps={{
               onPress: () => console.log("asdasd"),
-              editable: false,
+              editable: false
             }}
           />
           <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -107,5 +108,5 @@ export const SignUp = () => {
         </View>
       </ScrollView>
     </ScreenContainer>
-  );
-};
+  )
+}

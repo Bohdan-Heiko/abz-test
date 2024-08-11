@@ -1,11 +1,12 @@
-import { positionsSchemaDto } from "@/dto/users-positions.dto";
-import { usersSchemaDto } from "@/dto/users.dto";
-import { z } from "zod";
+import { z } from "zod"
 
-export type UsersResponse = z.infer<typeof usersSchemaDto>;
-export type UsersPositionsResponse = z.infer<typeof positionsSchemaDto>;
+import { usersSchemaDto } from "@/dto/users.dto"
+import { positionsSchemaDto } from "@/dto/users-positions.dto"
+
+export type UsersResponse = z.infer<typeof usersSchemaDto>
+export type UsersPositionsResponse = z.infer<typeof positionsSchemaDto>
 
 export type UsersResponseParams = {
-  count: number;
-  page: number;
-};
+  count: number
+  page: number
+}

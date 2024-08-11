@@ -1,5 +1,6 @@
-import { SVGIcon } from "@/shared/ui-kit/svg-icon";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native"
+
+import { SVGIcon } from "@/shared/ui-kit/svg-icon"
 export const NoUsers = () => {
   return (
     <View style={styles.container}>
@@ -8,20 +9,20 @@ export const NoUsers = () => {
         <Text style={styles.text}>There are no users yet</Text>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   iconContainer: {
     alignItems: "center",
-    gap: 24,
+    gap: 24
   },
   text: {
-    fontSize: 24,
-  },
-});
+    fontSize: 24
+  }
+})
