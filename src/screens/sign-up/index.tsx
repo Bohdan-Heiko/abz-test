@@ -1,5 +1,5 @@
-import { ScrollView, Text, View } from "react-native"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { Linking, ScrollView, Text, View } from "react-native"
 import { z } from "zod"
 
 import { WorkingRequest } from "@/shared/components/work-request"
@@ -8,6 +8,9 @@ import AnimatedInputField from "@/shared/ui-kit/input"
 import { ScreenContainer } from "@/shared/ui-kit/screen-container"
 import { useGetUsersPositionsQuery } from "@/store/services/users-api"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useCameraPermissions } from "expo-camera"
+import * as ImagePicker from "expo-image-picker"
+// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
 
 import { Position } from "./_components/position"
 
@@ -38,8 +41,7 @@ type SignInSchemaType = z.infer<typeof signUpSchema>
 
 export const SignUp = () => {
   const { data: positionsData } = useGetUsersPositionsQuery()
-  console.log(positionsData)
-
+  const [cameraPermission, requestPermission] = useCameraPermissions()
   const {
     control,
     handleSubmit,
@@ -54,6 +56,32 @@ export const SignUp = () => {
 
   const onSendForm: SubmitHandler<SignInSchemaType> = (data: any) => {
     console.log(data)
+  }
+
+  const requestPermissions = async () => {
+    // Запрос разрешений на доступ к камере и галерее
+    console.log("requestPermissions")
+
+    const cameraStatus = await ImagePicker.requestCameraPermissionsAsync()
+    // const cameraPermission = await Camera.requestCameraPermissionsAsync()
+    // requestPermission()
+    // console.log(cameraPermission)
+
+    const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    console.log(galleryStatus, cameraStatus)
+    if (!galleryStatus.granted) {
+      Linking.openSettings()
+    }
+
+    // if (cameraStatus !== "granted" || galleryStatus !== "granted") {
+    //   Alert.alert(
+    //     "Требуется разрешение",
+    //     "Приложению требуется доступ к камере и галерее для загрузки изображений."
+    //   )
+    //   return false
+    // }
+
+    // return true
   }
 
   return (
@@ -86,9 +114,6 @@ export const SignUp = () => {
                   userPosition={position}
                 />
               ))}
-              {/* <Position position="Backend developer" />
-              <Position position="Designer" />
-              <Position position="QA" /> */}
             </View>
           </View>
 
@@ -98,7 +123,7 @@ export const SignUp = () => {
             label="Upload your photo"
             additionalText="Upload"
             inputProps={{
-              onPress: () => console.log("asdasd"),
+              onPress: requestPermissions,
               editable: false
             }}
           />
