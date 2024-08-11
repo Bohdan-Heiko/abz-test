@@ -1,14 +1,14 @@
 import { ScrollView, Text, View } from "react-native"
+import { router } from "expo-router"
+import { StatusBar } from "expo-status-bar"
 
+// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
+import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
 import { WorkingRequest } from "@/shared/components/work-request"
 import { Button } from "@/shared/ui-kit/button"
 import AnimatedInputField from "@/shared/ui-kit/input"
 import { ScreenContainer } from "@/shared/ui-kit/screen-container"
-// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
 
-import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
-import { router } from "expo-router"
-import { StatusBar } from "expo-status-bar"
 import { Position } from "./_components/position"
 import { UserStatus } from "./_components/user-status"
 import { useCreateuser } from "./hooks/useUserCreate"

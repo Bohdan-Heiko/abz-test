@@ -1,19 +1,18 @@
+import * as ImagePicker from "expo-image-picker"
+import { useState } from "react"
 import { Control, SubmitHandler, useForm, UseFormHandleSubmit } from "react-hook-form"
 import { Alert, Linking } from "react-native"
 
+// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
+import { signUpSchema } from "@/schema/signup.schema"
+import { useActions } from "@/shared/hooks/use-actions"
+import { useLazyGetTokenQuery } from "@/store/services/tokens-api"
 import {
   useCreateUserMutation,
   useGetUsersPositionsQuery
 } from "@/store/services/users-api"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as ImagePicker from "expo-image-picker"
-// import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
-
-import { signUpSchema } from "@/schema/signup.schema"
-import { useActions } from "@/shared/hooks/use-actions"
-import { useLazyGetTokenQuery } from "@/store/services/tokens-api"
 import { SignUpUserSchemaType, UsersPositionsResponse } from "@/types/users"
-import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const DEFAULT_DATA = {
   name: "",
@@ -44,6 +43,7 @@ interface ReturnData {
 }
 
 export const useCreateuser = (): ReturnData => {
+  const { setNewToken, setCreatedUserId } = useActions()
   const [visible, setVisible] = useState(false)
 
   const { data: positionsData } = useGetUsersPositionsQuery()
@@ -56,9 +56,8 @@ export const useCreateuser = (): ReturnData => {
       reset: resetRequestData
     }
   ] = useCreateUserMutation()
-  const { setNewToken } = useActions()
 
-  const { control, watch, trigger, setValue, handleSubmit, setError, getValues } =
+  const { control, watch, trigger, setValue, handleSubmit, setError } =
     useForm<SignUpUserSchemaType>({
       mode: "onChange",
       defaultValues: DEFAULT_DATA,
@@ -85,7 +84,7 @@ export const useCreateuser = (): ReturnData => {
     const isToken = await setToken()
 
     if (isToken) {
-      let formData = new FormData()
+      const formData = new FormData()
       formData.append("name", data.name)
       formData.append("email", data.email)
       formData.append("phone", data.phone)
@@ -98,6 +97,7 @@ export const useCreateuser = (): ReturnData => {
 
       await createUser(formData)
         .unwrap()
+        .then((res) => setCreatedUserId(res.user_id))
         .finally(() => setNewToken(""))
     }
   }

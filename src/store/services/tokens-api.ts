@@ -1,4 +1,5 @@
 import { TokenResponse } from "@/types/token"
+
 import { appApi } from "./app-api"
 
 export const tokensApi = appApi.injectEndpoints({

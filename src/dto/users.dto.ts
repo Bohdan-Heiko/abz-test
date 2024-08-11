@@ -18,8 +18,20 @@ export const usersSchemaDto = z.object({
       phone: z.string(),
       position: z.string(),
       position_id: z.number(),
-      registration_timestamp: z.number(),
       photo: z.string()
     })
   )
+})
+
+export const oneUserUserSchemaDto = z.object({
+  success: z.boolean(),
+  user: z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string(),
+    phone: z.string(),
+    position_id: z.number(),
+    position: z.string(),
+    photo: z.string().url()
+  })
 })

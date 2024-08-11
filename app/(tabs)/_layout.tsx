@@ -2,7 +2,7 @@ import { Tabs } from "expo-router"
 import React from "react"
 
 // import { SVGIcon } from "@/shared/ui-kit/svg-icon";
-import { SVGIcon } from "@/shared/ui-kit/svg-icon"
+import { TabBarElement } from "@/shared/components/tab-bar-element"
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
@@ -25,28 +25,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Users",
+          title: "",
 
           tabBarIcon: ({ color, focused }) => (
-            <SVGIcon name="users_group" color={"red"} size={40} />
+            <TabBarElement
+              title="Users"
+              type="group"
+              iconColor={focused ? DEFAULT_COLORS.primary_blue : DEFAULT_COLORS.dark_gray}
+            />
           )
         }}
       />
-      <Tabs.Screen
-        name="[...id]"
-        options={{
-          title: "Users",
-          tabBarShowLabel: false,
-          tabBarHideOnKeyboard: true,
-          tabBarIconStyle: { display: "none" }
-        }}
-      />
+
       <Tabs.Screen
         name="sign-up"
         options={{
-          title: "Sign up",
+          title: "",
           tabBarIcon: ({ color, focused }) => (
-            <SVGIcon name="sign_in" color={"black"} size={40} />
+            <TabBarElement
+              title="Sign up"
+              type="profile"
+              iconColor={focused ? DEFAULT_COLORS.primary_blue : DEFAULT_COLORS.dark_gray}
+            />
           )
         }}
       />
