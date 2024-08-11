@@ -1,91 +1,199 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import { Linking, ScrollView, Text, View } from "react-native"
-import { z } from "zod"
+import { Alert, Linking, ScrollView, Text, View } from "react-native"
 
 import { WorkingRequest } from "@/shared/components/work-request"
 import { Button } from "@/shared/ui-kit/button"
 import AnimatedInputField from "@/shared/ui-kit/input"
 import { ScreenContainer } from "@/shared/ui-kit/screen-container"
-import { useGetUsersPositionsQuery } from "@/store/services/users-api"
+import {
+  useCreateUserMutation,
+  useGetUsersPositionsQuery
+} from "@/store/services/users-api"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useCameraPermissions } from "expo-camera"
 import * as ImagePicker from "expo-image-picker"
 // import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
 
+import { signUpSchema } from "@/schema/signup.schema"
 import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
+import { useActions } from "@/shared/hooks/use-actions"
+import { useLazyGetTokenQuery } from "@/store/services/tokens-api"
+import { SignUpUserSchemaType } from "@/types/users"
 import { useState } from "react"
 import { Position } from "./_components/position"
-
-const signUpSchema = z.object({
-  name: z
-    .string({ message: "Required field" })
-    .min(2, "Minimum 2 character")
-    .max(60, "Maximum 60 characters"),
-  email: z.string().email({ message: "Invalid email format" }),
-  phone: z
-    .string({ message: "Required field" })
-    .startsWith("+380", "Phone number must start with +380")
-    .min(13)
-    .max(13),
-  position_id: z.number().min(1).nonnegative(),
-  photo: z.string()
-})
 
 const DEFAULT_DATA = {
   name: "",
   email: "",
   phone: "",
   position_id: 0,
-  photo: ""
+  photo: {}
 }
-
-type SignInSchemaType = z.infer<typeof signUpSchema>
 
 export const SignUp = () => {
   const [visible, setVisible] = useState(false)
 
   const { data: positionsData } = useGetUsersPositionsQuery()
-  const [cameraPermission, requestPermission] = useCameraPermissions()
+  const [getToken] = useLazyGetTokenQuery()
+  const [createUser] = useCreateUserMutation()
+  const { setNewToken } = useActions()
+
   const {
     control,
     handleSubmit,
+    watch,
+    setValue,
+    trigger,
     formState: { errors }
-  } = useForm<SignInSchemaType>({
+  } = useForm<SignUpUserSchemaType>({
     mode: "onChange",
     defaultValues: DEFAULT_DATA,
     resolver: zodResolver(signUpSchema)
   })
 
-  console.log(errors)
+  const WATCH_PHOTO = watch("photo") as ImagePicker.ImagePickerAsset
 
-  const onSendForm: SubmitHandler<SignInSchemaType> = (data: any) => {
-    console.log(data)
-  }
+  const setToken = async (): Promise<boolean> => {
+    const token = await getToken().unwrap()
 
-  const requestPermissions = async () => {
-    // Запрос разрешений на доступ к камере и галерее
-    console.log("requestPermissions")
-
-    const cameraStatus = await ImagePicker.requestCameraPermissionsAsync()
-    // const cameraPermission = await Camera.requestCameraPermissionsAsync()
-    // requestPermission()
-    // console.log(cameraPermission)
-
-    const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
-    console.log(galleryStatus, cameraStatus)
-    if (!galleryStatus.granted) {
-      Linking.openSettings()
+    if (token.success) {
+      setNewToken(token.token)
     }
 
-    // if (cameraStatus !== "granted" || galleryStatus !== "granted") {
-    //   Alert.alert(
-    //     "Требуется разрешение",
-    //     "Приложению требуется доступ к камере и галерее для загрузки изображений."
-    //   )
-    //   return false
-    // }
+    return token.success
+  }
 
-    // return true
+  const onSendForm: SubmitHandler<SignUpUserSchemaType> = async (data) => {
+    const isToken = await setToken()
+
+    if (isToken) {
+      let formData = new FormData()
+      formData.append("name", data.name)
+      formData.append("email", data.email)
+      formData.append("phone", data.phone)
+      formData.append("position_id", data.position_id.toString())
+      formData.append("photo", {
+        uri: WATCH_PHOTO?.uri,
+        name: WATCH_PHOTO?.fileName,
+        type: WATCH_PHOTO?.mimeType
+      } as unknown as Blob)
+
+      await createUser(formData)
+        .unwrap()
+        .then(() => Alert.alert("Success", "User created"))
+        .catch((e) => {
+          console.log(e)
+
+          Alert.alert("Error", "Something went wrong")
+        })
+        .finally(() => setNewToken(""))
+    }
+  }
+
+  const getPermissions = async (type: "camera" | "gallery"): Promise<boolean> => {
+    if (type === "gallery") {
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+      if (!galleryStatus.granted) {
+        Alert.alert(
+          "Требуется разрешение",
+          "Приложению требуется доступ к камере и галерее для загрузки изображений."
+        )
+
+        return false
+      }
+
+      return true
+    } else {
+      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync()
+
+      if (!cameraStatus.granted) {
+        Alert.alert(
+          "Требуется разрешение",
+          "Приложению требуется доступ к камере для загрузки изображений."
+        )
+        return false
+      }
+
+      return true
+    }
+  }
+
+  const getImageInGalery = async () => {
+    try {
+      const galleryStatus = await getPermissions("gallery")
+
+      if (!galleryStatus) {
+        return Linking.openSettings()
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 0.8,
+        selectionLimit: 1
+      })
+
+      if (!result.canceled) {
+        const image = result.assets[0]
+
+        if (
+          image &&
+          image?.fileSize &&
+          image?.fileSize <= 5 * 1024 * 1024 &&
+          image.width >= 70 &&
+          image.height >= 70
+        ) {
+          setValue("photo", image)
+          trigger("photo")
+          setVisible(false)
+        } else {
+          Alert.alert(
+            "Error",
+            "The image size must be no more than 5 MB and the resolution must be at least 70x70 pixels."
+          )
+        }
+      }
+    } catch (error) {
+      Alert.alert("Error", "An error occurred while selecting the image.")
+    }
+  }
+
+  const getImageFromCamera = async () => {
+    try {
+      const galleryStatus = await getPermissions("camera")
+
+      if (!galleryStatus) {
+        return Linking.openSettings()
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 0.8
+      })
+
+      if (!result.canceled) {
+        const image = result.assets[0]
+
+        if (
+          image &&
+          image?.fileSize &&
+          image.fileSize <= 5 * 1024 * 1024 &&
+          image.width >= 70 &&
+          image.height >= 70
+        ) {
+          setValue("photo", image)
+          trigger("photo")
+          setVisible(false)
+        } else {
+          Alert.alert(
+            "Error",
+            "The image size must be no more than 5 MB and the resolution must be at least 70x70 pixels."
+          )
+        }
+      }
+    } catch (error) {
+      Alert.alert("Error", "An error occurred while selecting the image.")
+    }
   }
 
   return (
@@ -122,7 +230,7 @@ export const SignUp = () => {
           </View>
 
           <AnimatedInputField
-            name="position_id"
+            name="photo"
             control={control}
             label="Upload your photo"
             additionalText="Upload"
@@ -136,7 +244,12 @@ export const SignUp = () => {
           </View>
         </View>
       </ScrollView>
-      <CameraModal visible={visible} onClose={() => setVisible(false)} />
+      <CameraModal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        getImageInGalery={getImageInGalery}
+        getImageFromCamera={getImageFromCamera}
+      />
     </ScreenContainer>
   )
 }

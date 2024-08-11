@@ -1,10 +1,16 @@
-import { usersSchemaDto } from "@/dto/users.dto"
 import { positionsSchemaDto } from "@/dto/users-positions.dto"
-import { UsersPositionsResponse, UsersResponse, UsersResponseParams } from "@/types/users"
+import { usersSchemaDto } from "@/dto/users.dto"
+import {
+  SuccessSignUpUser,
+  UsersPositionsResponse,
+  UsersResponse,
+  UsersResponseParams
+} from "@/types/users"
 
 import { appApi } from "./app-api"
 
 export const visitApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getAllUsers: builder.query<UsersResponse, UsersResponseParams>({
       query: (params) => ({
@@ -25,9 +31,24 @@ export const visitApi = appApi.injectEndpoints({
         positionsSchemaDto.parse(baseQueryReturnValue)
         return baseQueryReturnValue
       }
+    }),
+
+    createUser: builder.mutation<SuccessSignUpUser, FormData>({
+      query: (body) => ({
+        url: "/users",
+        method: "POST",
+        body,
+        headers: {
+          "Ignore-Headers": "true"
+        },
+        formData: true
+      })
     })
   })
 })
 
-export const { useGetAllUsersQuery, useLazyGetAllUsersQuery, useGetUsersPositionsQuery } =
-  visitApi
+export const {
+  useLazyGetAllUsersQuery,
+  useGetUsersPositionsQuery,
+  useCreateUserMutation
+} = visitApi

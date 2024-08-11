@@ -14,11 +14,8 @@ export const appApi = createApi({
       const state: RootState = getState() as RootState
       const token = state.auth.token
 
-      if (headers.has("Internal-key")) {
-        headers.set("Authorization", `Bearer ${headers.get("Internal-key")}`)
-        headers.delete("Internal-key")
-      } else if (token) {
-        headers.set("Authorization", `Bearer ${token}`)
+      if (token) {
+        headers.set("Token", token)
       }
 
       if (!headers.has("Ignore-Headers")) {

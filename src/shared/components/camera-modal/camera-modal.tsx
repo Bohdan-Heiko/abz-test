@@ -4,9 +4,16 @@ import { Modal, Pressable, StyleSheet, Text, View } from "react-native"
 interface Props {
   visible: boolean
   onClose: () => void
+  getImageInGalery: () => void
+  getImageFromCamera: () => void
 }
 
-export const CameraModal = ({ visible, onClose }: Props) => {
+export const CameraModal = ({
+  visible,
+  onClose,
+  getImageInGalery,
+  getImageFromCamera
+}: Props) => {
   return (
     <Modal
       transparent={true}
@@ -17,25 +24,16 @@ export const CameraModal = ({ visible, onClose }: Props) => {
     >
       <Pressable onPress={onClose} style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          <View
-            style={{
-              width: "100%",
-              paddingTop: 12,
-              paddingBottom: 0,
-              borderBottomWidth: 1,
-              alignItems: "center",
-              borderBottomColor: DEFAULT_COLORS.gray
-            }}
-          >
+          <View style={styles.titleContainer}>
             <Text style={styles.title}>Choose how you want to add a photo</Text>
           </View>
 
-          <Pressable style={styles.optionButton} onPress={() => console.log("Pres")}>
+          <Pressable style={styles.optionButton} onPress={getImageFromCamera}>
             <Text style={styles.optionText}>Camera</Text>
           </Pressable>
           <Pressable
             style={[styles.optionButton, styles.borderBottomWidth0]}
-            onPress={() => console.log("Pres")}
+            onPress={getImageInGalery}
           >
             <Text style={styles.optionText}>Gallery</Text>
           </Pressable>
@@ -61,6 +59,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     gap: 8,
     paddingVertical: 34
+  },
+
+  titleContainer: {
+    width: "100%",
+    paddingTop: 12,
+    paddingBottom: 0,
+    borderBottomWidth: 1,
+    alignItems: "center",
+    borderBottomColor: DEFAULT_COLORS.gray
   },
   modalContainer: {
     backgroundColor: "rgba(234,234,234,1)",
