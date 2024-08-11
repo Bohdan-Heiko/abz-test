@@ -14,4 +14,5 @@ export const DEFAULT_COLORS = {
   secondary_white: "#F8F8F8",
   surface: "#49454F",
   dark: "#000000",
-};
+  linking_blue: "#007AFF"
+}

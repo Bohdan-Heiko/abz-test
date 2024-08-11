@@ -43,9 +43,26 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Allow Play That Song to access your camera</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow Play That Song to access your microphone</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your photos</string>
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+    </array>
+    <key>UIAppFonts</key>
+    <array>
+      <string>NunitoSans_7pt_Condensed-Bold.ttf</string>
+      <string>NunitoSans_7pt_Condensed-ExtraBold.ttf</string>
+      <string>NunitoSans_7pt_Condensed-Medium.ttf</string>
+      <string>NunitoSans_7pt_Condensed-Regular.ttf</string>
+      <string>NunitoSans_7pt_Condensed-SemiBold.ttf</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>

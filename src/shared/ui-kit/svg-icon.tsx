@@ -1,17 +1,17 @@
-import React from "react";
-import { SvgProps } from "react-native-svg";
+import { SvgProps } from "react-native-svg"
+import React from "react"
 
-import { SVGIconNames } from "@/types/icons";
-import { DEFAULT_COLORS } from "@/utils/constants/Colors";
-import * as SVGIcons from "@/utils/constants/icons";
+import { SVGIconNames } from "@/types/icons"
+import { DEFAULT_COLORS } from "@/utils/constants/Colors"
+import * as SVGIcons from "@/utils/constants/icons"
 
 interface Props extends SvgProps {
-  name: SVGIconNames;
-  width?: number;
-  height?: number;
-  size?: number;
-  color?: string;
-  strokeWidth?: number;
+  name: SVGIconNames
+  width?: number
+  height?: number
+  size?: number
+  color?: string
+  strokeWidth?: number
 }
 
 export const SVGIcon: React.FC<Props> = ({
@@ -23,7 +23,7 @@ export const SVGIcon: React.FC<Props> = ({
   strokeWidth = 0.1,
   ...rest
 }) => {
-  const IconComponent = SVGIcons[name].default;
+  const IconComponent = SVGIcons[name].default
 
   return (
     <IconComponent
@@ -33,5 +33,5 @@ export const SVGIcon: React.FC<Props> = ({
       stroke={color}
       strokeWidth={strokeWidth}
     />
-  );
-};
+  )
+}

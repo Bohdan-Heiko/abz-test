@@ -9,18 +9,26 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.abz-test"
+      "bundleIdentifier": "com.anonymous.abz-test",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses your camera"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.abztest"
     },
     "web": {
       "bundler": "metro",
@@ -39,6 +47,14 @@
             "./assets/fonts/NunitoSans_7pt_Condensed-Regular.ttf",
             "./assets/fonts/NunitoSans_7pt_Condensed-SemiBold.ttf"
           ]
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Play That Song to access your camera",
+          "microphonePermission": "Allow Play That Song to access your microphone",
+          "recordAudioAndroid": false
         }
       ]
     ],
