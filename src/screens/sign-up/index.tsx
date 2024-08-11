@@ -12,6 +12,8 @@ import { useCameraPermissions } from "expo-camera"
 import * as ImagePicker from "expo-image-picker"
 // import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
 
+import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
+import { useState } from "react"
 import { Position } from "./_components/position"
 
 const signUpSchema = z.object({
@@ -40,6 +42,8 @@ const DEFAULT_DATA = {
 type SignInSchemaType = z.infer<typeof signUpSchema>
 
 export const SignUp = () => {
+  const [visible, setVisible] = useState(false)
+
   const { data: positionsData } = useGetUsersPositionsQuery()
   const [cameraPermission, requestPermission] = useCameraPermissions()
   const {
@@ -123,7 +127,7 @@ export const SignUp = () => {
             label="Upload your photo"
             additionalText="Upload"
             inputProps={{
-              onPress: requestPermissions,
+              onPress: () => setVisible(true),
               editable: false
             }}
           />
@@ -132,6 +136,7 @@ export const SignUp = () => {
           </View>
         </View>
       </ScrollView>
+      <CameraModal visible={visible} onClose={() => setVisible(false)} />
     </ScreenContainer>
   )
 }
