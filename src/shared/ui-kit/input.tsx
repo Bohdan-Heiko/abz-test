@@ -1,25 +1,23 @@
 import { DEFAULT_COLORS } from "@/utils/constants/Colors";
 import React, { useRef, useState } from "react";
+import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native";
 
-interface Props {
+interface Props<T extends FieldValues> extends UseControllerProps<T> {
   label: string;
   subPlaceHolder?: string;
   inputProps?: TextInputProps;
   additionalText?: string;
-  error: {
-    isError: boolean;
-    message: string;
-  };
 }
 
-const AnimatedInputField = ({
+const AnimatedInputField = <T extends FieldValues>({
   label,
-  error,
+  control,
   subPlaceHolder,
   inputProps,
   additionalText,
-}: Props) => {
+  name,
+}: Props<T>) => {
   const [text, setText] = useState("");
   const floatingLabelAnimation = useRef(new Animated.Value(text ? 1 : 0)).current;
   const borderColorAnimation = useRef(new Animated.Value(0)).current;
@@ -74,37 +72,48 @@ const AnimatedInputField = ({
   });
 
   return (
-    <View style={styles.container}>
-      <Animated.Text
-        style={[
-          styles.label,
-          floatingLabelStyle,
-          { color: error.isError ? DEFAULT_COLORS.red : styles.label.color },
-        ]}
-      >
-        {label}
-      </Animated.Text>
-      <Animated.View
-        style={[
-          styles.animatedInput,
-          { borderColor: error.isError ? DEFAULT_COLORS.red : borderColor },
-        ]}
-      >
-        <TextInput
-          {...inputProps}
-          value={text}
-          onChangeText={(val) => setText(val)}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          style={{ flex: 1 }}
-        />
-        {additionalText && <Text style={styles.additionalText}>{additionalText}</Text>}
-      </Animated.View>
-      {error.isError && <Text style={styles.errorMessage}>{error.message}</Text>}
-      {subPlaceHolder && !error.isError && (
-        <Text style={styles.subPlaceholder}>{subPlaceHolder}</Text>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <>
+          <View style={styles.container}>
+            <Animated.Text
+              style={[
+                styles.label,
+                floatingLabelStyle,
+                { color: error ? DEFAULT_COLORS.red : styles.label.color },
+              ]}
+            >
+              {label}
+            </Animated.Text>
+            <Animated.View
+              style={[
+                styles.animatedInput,
+                { borderColor: error ? DEFAULT_COLORS.red : borderColor },
+              ]}
+            >
+              <TextInput
+                {...inputProps}
+                value={value}
+                onChangeText={(val) => {
+                  onChange(val);
+                  setText(val); // ITS NEED FOR CORECT WORKING ANIMATION
+                }}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                style={{ flex: 1 }}
+              />
+              {additionalText && <Text style={styles.additionalText}>{additionalText}</Text>}
+            </Animated.View>
+            {error && <Text style={styles.errorMessage}>{error.message}</Text>}
+            {subPlaceHolder && !error && (
+              <Text style={styles.subPlaceholder}>{subPlaceHolder}</Text>
+            )}
+          </View>
+        </>
       )}
-    </View>
+    />
   );
 };
 
