@@ -12,7 +12,8 @@ export const ScreenContainer: React.FC<ViewProps> = ({ style, ...restProps }) =>
 
 const styles = StyleSheet.create({
   flex1: {
-    flex: 1
+    flex: 1,
+    backgroundColor: DEFAULT_COLORS.white
   },
   container: {
     overflow: "visible",

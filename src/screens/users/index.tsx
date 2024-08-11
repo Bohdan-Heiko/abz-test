@@ -1,11 +1,15 @@
-import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native"
 import { useCallback } from "react"
+import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native"
 
 import { WorkingRequest } from "@/shared/components/work-request"
 import { ScreenContainer } from "@/shared/ui-kit/screen-container"
 import { UsersResponse } from "@/types/users"
 import { FlashList } from "@shopify/flash-list"
 
+import { Button } from "@/shared/ui-kit/button"
+import { useRoute } from "@react-navigation/native"
+import { router as navigationRouter, usePathname } from "expo-router"
+import { StatusBar } from "expo-status-bar"
 import { NoUsers } from "./_components/no-users"
 import { User } from "./_components/user"
 import { useUserData } from "./_hooks/useUserData"
@@ -17,10 +21,18 @@ export const Users = () => {
     []
   )
 
+  const router = useRoute()
+  const path = usePathname()
+  console.log(path)
+
   return (
     <ScreenContainer>
       <WorkingRequest requestType="GET" />
-
+      <StatusBar style="dark" />
+      <Button
+        label="Redirect"
+        onPress={() => navigationRouter.push("/(tabs)/users/44")}
+      />
       <View style={styles.usersContainer}>
         <FlashList
           data={users}

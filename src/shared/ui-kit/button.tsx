@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: DEFAULT_COLORS.gray
   },
   text: {
+    fontWeight: "600",
     fontSize: 18,
     lineHeight: 24,
     color: DEFAULT_COLORS.dark

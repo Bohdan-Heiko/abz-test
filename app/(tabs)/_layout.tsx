@@ -26,9 +26,19 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Users",
+
           tabBarIcon: ({ color, focused }) => (
             <SVGIcon name="users_group" color={"red"} size={40} />
           )
+        }}
+      />
+      <Tabs.Screen
+        name="[...id]"
+        options={{
+          title: "Users",
+          tabBarShowLabel: false,
+          tabBarHideOnKeyboard: true,
+          tabBarIconStyle: { display: "none" }
         }}
       />
       <Tabs.Screen
