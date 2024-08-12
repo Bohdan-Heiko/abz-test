@@ -1,6 +1,6 @@
-import { ScrollView, Text, View } from "react-native"
 import { router } from "expo-router"
 import { StatusBar } from "expo-status-bar"
+import { ScrollView, StyleSheet, Text, View } from "react-native"
 
 // import { BarcodeScanningResult, useCameraPermissions } from "expo-camera/legacy";
 import { CameraModal } from "@/shared/components/camera-modal/camera-modal"
@@ -17,6 +17,7 @@ export const SignUp = () => {
   const { form, visible, createUserMethods, createdStatuses, positionsData } =
     useCreateuser()
 
+  // SHOW COMPONENT IF CREATE USER IS SUCCESS
   if (createdStatuses.isCreateUserSuccess) {
     return (
       <UserStatus
@@ -27,6 +28,7 @@ export const SignUp = () => {
     )
   }
 
+  // SHOW COMPONENT IF CREATE USER IS REJECTED
   if (createdStatuses.isCreateUserError) {
     return (
       <UserStatus
@@ -42,8 +44,8 @@ export const SignUp = () => {
       <StatusBar style="dark" />
       <WorkingRequest requestType="POST" />
       <ScrollView>
-        <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 32, gap: 24 }}>
-          <View style={{ gap: 32 }}>
+        <View style={styles.formContainer}>
+          <View style={styles.gap32}>
             <AnimatedInputField name="name" label="Your name" control={form.control} />
             <AnimatedInputField name="email" label="Email" control={form.control} />
             <AnimatedInputField
@@ -57,8 +59,8 @@ export const SignUp = () => {
             />
           </View>
 
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontSize: 24, lineHeight: 24 }}>Select your position</Text>
+          <View style={styles.gap12}>
+            <Text style={styles.positionTitle}>Select your position</Text>
             <View>
               {positionsData?.positions?.map((position) => (
                 <Position
@@ -81,7 +83,8 @@ export const SignUp = () => {
               onPress: () => createUserMethods.onOpenCloseModal(true)
             }}
           />
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+
+          <View style={styles.btnContainer}>
             <Button
               onPress={form.handleSubmit(createUserMethods.onSendForm)}
               label="Sign up"
@@ -90,6 +93,7 @@ export const SignUp = () => {
           </View>
         </View>
       </ScrollView>
+
       <CameraModal
         visible={visible}
         onClose={() => createUserMethods.onOpenCloseModal(false)}
@@ -99,3 +103,26 @@ export const SignUp = () => {
     </ScreenContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  formContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    gap: 24
+  },
+  gap32: {
+    gap: 32
+  },
+  gap12: {
+    gap: 12
+  },
+  positionTitle: {
+    fontSize: 24,
+    lineHeight: 24
+  },
+  btnContainer: {
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})

@@ -1,6 +1,6 @@
-import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native"
-import { useCallback } from "react"
 import { StatusBar } from "expo-status-bar"
+import { useCallback } from "react"
+import { ActivityIndicator, Dimensions, StyleSheet, View } from "react-native"
 
 import { WorkingRequest } from "@/shared/components/work-request"
 import { ScreenContainer } from "@/shared/ui-kit/screen-container"
@@ -12,11 +12,11 @@ import { User } from "./_components/user"
 import { useUserData } from "./_hooks/useUserData"
 
 export const Users = () => {
-  const { isUsersLoading, loadMoreData, users, pageRef } = useUserData()
+  const { isUsersLoading, loadMoreData, users, pageRef } = useUserData() // BUISNESS LOGIC FOR USERS
   const KEY_EXTRACTOR = useCallback(
     (item: UsersResponse["users"][0]) => item.id.toString(),
     []
-  )
+  ) // MEMOIZED KEY LIBRARY REQUIRED
 
   return (
     <ScreenContainer>
@@ -54,7 +54,7 @@ export const Users = () => {
 const RenderFooter = ({ isUsersLoading }: { isUsersLoading: boolean }) => {
   if (!isUsersLoading) return null
   return (
-    <View style={{ paddingVertical: 20 }}>
+    <View style={styles.paddingVertical20}>
       <ActivityIndicator size="large" />
     </View>
   )
@@ -71,5 +71,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height - 100,
     justifyContent: "center",
     alignItems: "center"
+  },
+  paddingVertical20: {
+    paddingVertical: 20
   }
 })

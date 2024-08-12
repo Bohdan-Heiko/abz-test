@@ -13,17 +13,18 @@ interface ReturnData {
   isUsersLoading: boolean
 }
 export const useUserData = (): ReturnData => {
-  const pageRef = useRef<number>(1)
+  const pageRef = useRef<number>(1) // STARTED IN FIRST LOADING
   const { setCreatedUserId } = useActions()
-
   const { id: createdUserid } = useAppSelector((state) => state.user)
 
   const [users, setUsers] = useState<UsersResponse["users"]>([])
+
   const [getAllUsers, { isFetching: isUsersLoading }] = useLazyGetAllUsersQuery()
   const { data: onUserData } = useGetUserByIdQuery(createdUserid, {
     skip: !createdUserid
   })
 
+  // LOAD MORE USER DATA
   const loadMoreData = async (page: number) => {
     if (isUsersLoading) return
 
@@ -35,6 +36,7 @@ export const useUserData = (): ReturnData => {
       .catch(() => Alert.alert("Something went wrong"))
   }
 
+  // SET CREATED USER BY ID
   useEffect(() => {
     if (onUserData?.success) {
       setUsers((prev) => [onUserData.user, ...prev])

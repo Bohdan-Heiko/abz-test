@@ -1,8 +1,6 @@
-import { useColorScheme } from "@/shared/hooks/useColorScheme.web"
 import store from "@/store"
 import { useNetInfo } from "@react-native-community/netinfo"
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native"
-import { useFonts } from "expo-font"
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native"
 import { Redirect, Stack } from "expo-router"
 import * as SplashScreen from "expo-splash-screen"
 import { useEffect } from "react"
@@ -13,30 +11,25 @@ import { Provider as ReduxProvider } from "react-redux"
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
   const netInfo = useNetInfo()
 
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf")
-  })
-
   useEffect(() => {
-    if (loaded) {
+    let timeout: NodeJS.Timeout
+    timeout = setTimeout(() => {
       SplashScreen.hideAsync()
-    }
-  }, [loaded])
+    }, 1000)
 
-  if (!loaded) {
-    return null
-  }
+    return () => clearTimeout(timeout)
+  }, [])
 
+  // CHECK CONNECTION
   if (!netInfo.isConnected) {
     return <Redirect href="/no-conections" />
   }
 
   return (
     <ReduxProvider store={store}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DefaultTheme}>
         <Stack initialRouteName="/(tabs)/users">
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
