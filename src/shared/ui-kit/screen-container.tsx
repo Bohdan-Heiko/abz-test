@@ -1,6 +1,7 @@
-import { SafeAreaView, StyleSheet, View, ViewProps } from "react-native"
+import { StyleSheet, View, ViewProps } from "react-native"
 
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 export const ScreenContainer: React.FC<ViewProps> = ({ style, ...restProps }) => {
   return (

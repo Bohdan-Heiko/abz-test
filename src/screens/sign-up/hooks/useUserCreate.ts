@@ -44,7 +44,7 @@ interface ReturnData {
 
 export const useCreateuser = (): ReturnData => {
   const { setNewToken, setCreatedUserId } = useActions()
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
 
   const { data: positionsData } = useGetUsersPositionsQuery()
   const [getToken] = useLazyGetTokenQuery()

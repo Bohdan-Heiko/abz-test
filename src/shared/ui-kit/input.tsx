@@ -1,6 +1,14 @@
-import { Animated, StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 import React, { useRef, useState } from "react"
 import { Controller, FieldValues, UseControllerProps } from "react-hook-form"
+import {
+  Animated,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  View
+} from "react-native"
 
 import { DEFAULT_COLORS } from "@/utils/constants/Colors"
 
@@ -106,7 +114,9 @@ const AnimatedInputField = <T extends FieldValues>({
                 style={{ flex: 1 }}
               />
               {additionalText && (
-                <Text style={styles.additionalText}>{additionalText}</Text>
+                <Pressable onPress={inputProps?.onPress}>
+                  <Text style={styles.additionalText}>{additionalText}</Text>
+                </Pressable>
               )}
             </Animated.View>
             {error && <Text style={styles.errorMessage}>{error.message}</Text>}
