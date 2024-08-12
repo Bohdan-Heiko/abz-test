@@ -64,6 +64,7 @@ export const useCreateuser = (): ReturnData => {
       resolver: zodResolver(signUpSchema)
     })
 
+  // WATCHING PHOTO FROM USEFORM
   const WATCH_PHOTO = watch("photo") as ImagePicker.ImagePickerAsset
 
   // SET TOKEN IN TO REDUX

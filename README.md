@@ -1,50 +1,93 @@
-# Welcome to your Expo app 👋
+# Video Blog React Native Expo Project
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to my React Native Expo project! Here you'll find information about the project, its features, and instructions for installation and setup.
 
-## Get started
+## About the Project
 
-1. Install dependencies
+This project is built using React Native and Expo, making it portable and convenient for cross-platform mobile app development.
 
-   ```bash
-   npm install
-   ```
+## Features
 
-2. Start the app
+- **Cross-Platform**: Supports iOS and Android without additional effort.
+- **Ease of Use**: Expo provides convenient tools for development and debugging.
+- **Powerful React Native Capabilities**: The entire React Native ecosystem is at your disposal.
 
-   ```bash
-    npx expo start
-   ```
+## Installation
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1. Install Expo CLI if you haven't already:
 
 ```bash
-npm run reset-project
+npm install -g expo-cli
+
+2. Clone this repository:
+
+git clone https://github.com/Bohdan-Heiko/Video-blog.git
+
+
+3. Navigate to the project directory and install dependencies:
+
+cd video-blog
+npm install
+
+
+4. Running
+
+ Android: npx react-native run-android
+ IOS: xcrun xctrace list devices
+      npx expo run:ios --device ID DEVICE
+
+5. Build
+
+  Android: cd android -> ./gradlew assembleRelease
+  IOS: with XCODE
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Library
 
-## Learn more
+```bash
+1. ESLint
+ESLint is a tool for static code analysis that helps detect and fix errors, and ensures code consistency. We chose ESLint because it:
 
-To learn more about developing your project with Expo, look at the following resources:
+Helps detect errors and vulnerabilities in the code
+Ensures code consistency and adherence to certain standards
+Supports multiple plugins and configurations, allowing us to customize it to our needs
+Why we chose ESLint
+We chose ESLint because it:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Helps us detect and fix errors early in the development process
+Ensures code consistency, making it easier to maintain and develop
+Supports multiple plugins and configurations, allowing us to customize it to our needs
+ESLint Configuration
+We use the following ESLint configuration:
 
-## Join the community
+Plugins: [eslint-config-prettier, eslint-config-standard, eslint-plugin-import, eslint-plugin-prettier etc]
 
-Join our community of developers creating universal apps.
+Conclusion
+ESLint helps us ensure high-quality and consistent code, making it easier to maintain and develop. We recommend using ESLint in future projects, as it provides many benefits and simplifies the development process.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+2. Zod
+We chose Zod for data validation, as it provides a powerful and flexible way to describe and validate data structures. Zod allows us to define complex data schemas and automatically generate code for validation, making it easier to work with data and reduce errors.
+
+3. React-Redux
+We use React-Redux to manage the application state. This library provides a powerful toolkit for managing global application state, making it easy to update and synchronize data between different components.
+
+4 React-Native-SVG
+We use React-Native-SVG to render vector graphics in our application. This library allows us to create complex vector graphics and animations, adding visual appeal to our application.
+
+5. UseForm
+React Hook Form is a library for managing forms in React applications. It provides a simple and efficient way to handle form data, validation, and submission.
+
+Zod: provides powerful data validation, flexibility, and automatic code generation
+
+React-Redux: provides a powerful toolkit for managing global application state, making it easy to update and synchronize data
+
+RTK-QUERY: Provides the opportunity to work normally with the API, dictates the rules for writing convenient services
+
+
+React-Native-SVG: allows us to create complex vector graphics and animations, adding visual appeal to our application
+ESLint: helps us ensure high-quality and consistent code, making it easier to maintain and develop
+
+Conclusion
+These libraries help us implement a powerful and flexible application, making it easier to maintain and develop. We recommend using these libraries in future projects, as they provide many benefits and simplify the development process.
+
+```
