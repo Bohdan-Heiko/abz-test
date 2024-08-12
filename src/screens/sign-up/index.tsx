@@ -39,6 +39,8 @@ export const SignUp = () => {
     )
   }
 
+  console.log(visible)
+
   return (
     <ScreenContainer>
       <StatusBar style="dark" />
