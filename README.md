@@ -26,7 +26,7 @@ git clone https://github.com/Bohdan-Heiko/abz-test.git
 
 3. Navigate to the project directory and install dependencies:
 
-cd video-blog
+cd abz-test
 npm install
 
 
