@@ -21,7 +21,7 @@ npm install -g expo-cli
 
 2. Clone this repository:
 
-git clone https://github.com/Bohdan-Heiko/Video-blog.git
+git clone https://github.com/Bohdan-Heiko/abz-test.git
 
 
 3. Navigate to the project directory and install dependencies:
